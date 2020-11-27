@@ -14,4 +14,18 @@
 //  Gitlab : https://gitlab.com/Fathalfath30
 //
 */
-console.log('work in progress!')
+
+import express, {Request, Response, NextFunction} from 'express'
+
+const app = express()
+const port: number = 3000
+
+app.get('/', (req: Request, res: Response, next: NextFunction) => {
+  res.send({
+    testing: 'FF'
+  })
+})
+
+app.listen(port, () => {
+  console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
+});
