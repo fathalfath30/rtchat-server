@@ -14,19 +14,3 @@
 //  Gitlab : https://gitlab.com/Fathalfath30
 //
 */
-
-import express, {Request, Response, NextFunction} from 'express'
-import bodyParser from 'body-parser'
-
-try {
-  const port: number = 3000
-  const app = express()
-  app.use(bodyParser.urlencoded({extended: false}))
-  app.use(express.json())
-
-  app.listen(port, () => {
-    console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
-  });
-} catch (ex) {
-  console.log(`Error: ` + ex.message)
-}
