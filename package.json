@@ -1,0 +1,29 @@
+{
+  "name": "rtchat-server",
+  "version": "1.0.0",
+  "description": "Open source real time chat application server using express-js",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fathalfath30/rtchat-server.git"
+  },
+  "keywords": [
+    "nodejs",
+    "socket.io",
+    "javascript",
+    "ts",
+    "typescript",
+    "realtime-chat",
+    "chat",
+    "real-time"
+  ],
+  "author": "Fathalfath30",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fathalfath30/rtchat-server/issues"
+  },
+  "homepage": "https://github.com/fathalfath30/rtchat-server#readme"
+}
