@@ -15,14 +15,18 @@
 //
 */
 
-import express, {Request, Response, NextFunction} from 'express'
+import express from 'express'
 import bodyParser from 'body-parser'
+import {BaseRoutes} from './routes'
 
 try {
   const port: number = 3000
   const app = express()
+
   app.use(bodyParser.urlencoded({extended: false}))
   app.use(express.json())
+  app.use(BaseRoutes.Routes())
+
 
   app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at https://localhost:${port}`);
