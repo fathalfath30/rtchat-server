@@ -15,7 +15,8 @@
 //
 */
 import express, {Request, Response, NextFunction} from "express";
-import {response} from '../Modules/Response'
+import {api} from './api'
+import {response} from '../Modules/response'
 
 class RtchatServerRoutes {
   private r = express.Router()
@@ -31,9 +32,7 @@ class RtchatServerRoutes {
       response(res, {}, 200, "It's works!")
     })
 
-    this.r.use('/api', () => {
-
-    })
+    this.r.use('/api', api)
 
     return this.r
   }

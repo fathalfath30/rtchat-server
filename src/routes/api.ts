@@ -14,3 +14,13 @@
 //  Gitlab : https://gitlab.com/Fathalfath30
 //
 */
+import express, {Request, Response, NextFunction} from 'express'
+
+const api = express.Router()
+
+api.get('/hello', (req: Request, res: Response, next: NextFunction) => {
+  res.send({'wkwk': 'wkwk'});
+});
+
+
+export {api}
