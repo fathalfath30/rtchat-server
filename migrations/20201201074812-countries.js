@@ -1,9 +1,9 @@
 'use strict'
-
+const tableName = 'countries'
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return await queryInterface
-        .createTable ('countries', {
+        .createTable (tableName, {
           id: {
             type: Sequelize.TINYINT.UNSIGNED,
             allowNull: false,
@@ -47,15 +47,15 @@ module.exports = {
             type: Sequelize.DATE,
           },
         }).then (() => {
-          queryInterface.addIndex ('countries', ['iso3', 'iso2'], {
+          queryInterface.addIndex (tableName, ['iso3', 'iso2'], {
             type: 'FULLTEXT',
-            name: 'countries_idx',
+            name: tableName.concat ('_idx'),
           })
         })
   },
 
   down: async (queryInterface, Sequelize) => {
     return await queryInterface
-        .dropTable ('countries')
+        .dropTable (tableName)
   },
 }
