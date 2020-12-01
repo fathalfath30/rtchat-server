@@ -6,6 +6,10 @@
   "scripts": {
     "start": "ts-node-dev --respawn ./src/index.ts",
     "start-dev": "nodemon --exec ts-node ./src/index.ts",
+    "install:db": "sequelize-cli db:create && sequelize-cli db:migrate",
+    "install:db:seed": "sequelize-cli db:create && sequelize-cli db:migrate && sequelize-cli db:seed",
+    "reinstall:db": "sequelize-cli db:drop && sequelize-cli db:create && sequelize-cli db:migrate",
+    "reinstall:db:seed": "sequelize-cli db:drop && sequelize-cli db:create && sequelize-cli db:migrate && sequelize-cli db:seed",
     "build": "tsc ."
   },
   "repository": {
