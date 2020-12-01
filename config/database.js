@@ -18,7 +18,7 @@
 module.exports = {
   'username': 'root',
   'password': null,
-  'database': 'scheduling_apps',
+  'database': 'f30_rtchat',
   'host': '127.0.0.1',
   'dialect': 'mysql',
 }
