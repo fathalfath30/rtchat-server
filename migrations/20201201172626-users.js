@@ -1,21 +1,76 @@
-'use strict';
+'use strict'
 
+const tableName = 'users'
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
+    return await queryInterface
+        .createTable (tableName, {
+          id: {
+            type: Sequelize.CHAR (10),
+            allowNull: false,
+            primaryKey: true,
+          },
+          username: {
+            type: Sequelize.CHAR (18),
+            allowNull: true,
+          },
+          full_name: {
+            type: Sequelize.STRING (150),
+            allowNull: false,
+          },
+          country: {
+            type: Sequelize.TINYINT.UNSIGNED,
+            allowNull: false,
+          },
+          email: {
+            type: Sequelize.STRING (200),
+            allowNull: true,
+          },
+          email_verified_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+          password: {
+            type: Sequelize.STRING,
+            allowNull: true,
+          },
+          phone_number: {
+            type: Sequelize.STRING (20),
+            allowNull: true,
+          },
+          bio: {
+            type: Sequelize.STRING,
+            allowNull: true,
+          },
+          pin: {
+            type: Sequelize.STRING,
+            allowNull: true,
+          },
+          display_picture: {
+            type: Sequelize.STRING,
+            allowNull: true,
+          },
+          created_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+          updated_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+          deleted_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+        }).then (() => {
+          queryInterface.addIndex (tableName, ['id', 'username', 'country', 'email'], {
+            name: tableName.concat ('_idx'),
+          })
+        })
   },
 
   down: async (queryInterface, Sequelize) => {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
-  }
-};
+    return await queryInterface
+        .createTable (tableName)
+  },
+}
