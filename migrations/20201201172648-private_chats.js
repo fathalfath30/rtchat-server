@@ -16,23 +16,64 @@
 */
 'use strict'
 
-const tableName = ''
+const tableName = 'private_chats'
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
+    return queryInterface
+        .createTable (tableName, {
+          user: {
+            type: Sequelize.CHAR (10),
+            allowNull: false,
+            primaryKey: true,
+          },
+          to: {
+            type: Sequelize.CHAR (10),
+            allowNull: false,
+            primaryKey: true,
+          },
+          update_id: {
+            type: Sequelize.CHAR (10),
+            allowNull: false,
+            primaryKey: true,
+          },
+          parent_id: {
+            type: Sequelize.CHAR (10),
+            allowNull: true,
+            references: {
+              model: tableName,
+              key: 'update_id',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'CASCADE',
+          },
+          messages: {
+            type: Sequelize.TEXT,
+            allowNull: false,
+          },
+          created_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+          updated_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+          deleted_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+          read_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+        }).then (async () => {
+          await queryInterface.addIndex (tableName, ['user', 'to', 'update_id', 'parent_id'], {
+            name: tableName.concat ('_idx'),
+          })
+        })
   },
 
   down: async (queryInterface, Sequelize) => {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
-  }
-};
+    return queryInterface.dropTable (tableName)
+  },
+}
