@@ -39,12 +39,6 @@ module.exports = {
           parent_id: {
             type: Sequelize.CHAR (10),
             allowNull: true,
-            references: {
-              model: tableName,
-              key: 'update_id',
-            },
-            onUpdate: 'CASCADE',
-            onDelete: 'CASCADE',
           },
           messages: {
             type: Sequelize.TEXT,
