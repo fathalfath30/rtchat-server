@@ -16,15 +16,66 @@
 */
 'use strict'
 
-const tableName = ''
+const tableName = 'contacts'
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
+    return queryInterface
+        .createTable (tableName, {
+          user: {
+            type: Sequelize.CHAR (10),
+            allowNull: false,
+            references: {
+              model: 'users',
+              key: 'id',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'CASCADE',
+          },
+          contact: {
+            type: Sequelize.CHAR (10),
+            allowNull: false,
+            references: {
+              model: 'users',
+              key: 'id',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'CASCADE',
+          },
+          display_name: {
+            type: Sequelize.STRING (150),
+            allowNull: true,
+          },
+          blocked: {
+            type: Sequelize.CHAR (1),
+            allowNull: false,
+            defaultValue: '0',
+          },
+          blocked_until: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+          muted: {
+            type: Sequelize.CHAR (1),
+            allowNull: false,
+            defaultValue: '0',
+          },
+          muted_until: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+          created_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+          updated_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+        }).then (() => {
+          queryInterface.addIndex (tableName, ['user', 'contact'], {
+            name: tableName.concat ('_idx'),
+          })
+        })
   },
 
   down: async (queryInterface, Sequelize) => {
@@ -34,5 +85,5 @@ module.exports = {
      * Example:
      * await queryInterface.dropTable('users');
      */
-  }
-};
+  },
+}
