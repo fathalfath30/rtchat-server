@@ -16,23 +16,52 @@
 */
 'use strict'
 
-const tableName = ''
+const tableName = 'user_roles'
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
+    return queryInterface
+        .createTable (tableName, {
+          user: {
+            type: Sequelize.CHAR (10),
+            allowNull: false,
+            references: {
+              model: 'users',
+              key: 'id',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'CASCADE',
+          },
+          role: {
+            type: Sequelize.TINYINT.UNSIGNED,
+            allowNull: false,
+            references: {
+              model: 'roles',
+              key: 'id',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'CASCADE',
+          },
+          created_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+          updated_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+          revoked_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+        }).then (() => {
+          queryInterface.addIndex (tableName, ['user', 'role'], {
+            name: tableName.concat ('_idx'),
+          })
+        })
   },
 
   down: async (queryInterface, Sequelize) => {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
+    return await queryInterface
+        .dropTable (tableName)
   },
 }
