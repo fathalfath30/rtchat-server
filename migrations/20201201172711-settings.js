@@ -19,18 +19,42 @@
 const tableName = 'settings'
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    /*return queryInterface
-        .tableName(tableName,{
-
-        })*/
+    return queryInterface
+        .createTable (tableName, {
+          id: {
+            type: Sequelize.CHAR (10),
+            allowNull: false,
+            primaryKey: true,
+          },
+          name: {
+            type: Sequelize.STRING (150),
+            allowNull: false,
+          },
+          default_value: {
+            type: Sequelize.STRING,
+            allowNull: false,
+          },
+          setting_type: {
+            type: Sequelize.CHAR (1),
+            allowNull: false,
+            defaultValue: '0',
+          },
+          created_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+          updated_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+          deleted_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+        })
   },
 
-  down: async (queryInterface, Sequelize) => {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
-  }
-};
+  down: async (queryInterface) => {
+    return queryInterface.dropTable(tableName);
+  },
+}
