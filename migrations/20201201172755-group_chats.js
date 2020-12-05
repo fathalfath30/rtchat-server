@@ -16,23 +16,63 @@
 */
 'use strict'
 
-const tableName = ''
+const tableName = 'group_chats'
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
+    return await queryInterface
+        .createTable (tableName, {
+          group: {
+            type: Sequelize.CHAR (10),
+            allowNull: false,
+            primaryKey: true,
+            references: {
+              model: 'groups',
+              key: 'id',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'CASCADE',
+          },
+          user: {
+            type: Sequelize.CHAR (10),
+            allowNull: false,
+            primaryKey: true,
+            references: {
+              model: 'users',
+              key: 'id',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'CASCADE',
+          },
+          update_id: {
+            type: Sequelize.CHAR (10),
+            allowNull: false,
+            primaryKey: true,
+          },
+          parent_id: {
+            type: Sequelize.CHAR (10),
+            allowNull: true,
+            primaryKey: false,
+          },
+          message: {
+            type: Sequelize.TEXT,
+            allowNull: false,
+          },
+          created_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+          updated_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+        }).then (async () => {
+          return await queryInterface.addIndex (tableName, ['group', 'user', 'update_id', 'parent_id'], {
+            name: tableName.concat ('_idx'),
+          })
+        })
   },
 
-  down: async (queryInterface, Sequelize) => {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
-  }
-};
+  down: async (queryInterface) => {
+    return await queryInterface.dropTable (tableName)
+  },
+}

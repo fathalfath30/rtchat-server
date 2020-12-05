@@ -16,25 +16,45 @@
 */
 'use strict'
 
-const tableName = 'group_chat_readers'
+const tableName = 'group_members'
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     return await queryInterface
         .createTable (tableName, {
-          group: {
-            type: Sequelize.CHAR (10),
-            allowNull: true,
-          },
           user: {
             type: Sequelize.CHAR (10),
-            allowNull: true,
+            allowNull: false,
+            references: {
+              model: 'users',
+              key: 'id',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'CASCADE',
           },
-          update_id: {
+          group: {
             type: Sequelize.CHAR (10),
-            allowNull: true,
+            allowNull: false,
+            references: {
+              model: 'groups',
+              key: 'id',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'CASCADE',
           },
-          seen_by: {
-            type: Sequelize.CHAR (10),
+          is_admin: {
+            type: Sequelize.CHAR (1),
+            allowNull: false,
+            defaultValue: '0',
+            comment: '0: false; 1: true;',
+          },
+          is_banned: {
+            type: Sequelize.CHAR (1),
+            allowNull: false,
+            defaultValue: '0',
+            comment: '0: false; 1: true;',
+          },
+          banned_until: {
+            type: Sequelize.DATE,
             allowNull: true,
           },
           created_at: {
@@ -45,10 +65,8 @@ module.exports = {
             type: Sequelize.DATE,
             allowNull: true,
           },
-        }).then (async () => {
-          await queryInterface.sequelize.query ('ALTER TABLE ' + tableName + ' ADD FOREIGN KEY ( `group`, `user`, `update_id` ) REFERENCES `group_chats` ( `group`, `user`, `update_id` ) ON DELETE SET NULL ON UPDATE CASCADE')
-
-          return await queryInterface.addIndex (tableName, ['group', 'user', 'update_id', 'seen_by'], {
+        }).then (() => {
+          queryInterface.addIndex (tableName, ['user', 'group', 'is_admin', 'is_banned'], {
             name: tableName.concat ('_idx'),
           })
         })

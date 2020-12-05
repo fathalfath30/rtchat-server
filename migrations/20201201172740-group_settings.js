@@ -16,23 +16,55 @@
 */
 'use strict'
 
-const tableName = ''
+const tableName = 'group_settings'
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    /**
-     * Add altering commands here.
-     *
-     * Example:
-     * await queryInterface.createTable('users', { id: Sequelize.INTEGER });
-     */
+    return await queryInterface
+        .createTable (tableName, {
+          group: {
+            type: Sequelize.CHAR (10),
+            allowNull: false,
+            references: {
+              model: 'users',
+              key: 'id',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'CASCADE',
+          },
+          setting: {
+            type: Sequelize.CHAR (10),
+            allowNull: false,
+            references: {
+              model: 'settings',
+              key: 'id',
+            },
+            onUpdate: 'CASCADE',
+            onDelete: 'CASCADE',
+          },
+          value: {
+            type: Sequelize.TEXT,
+            allowNull: true,
+          },
+          created_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+          updated_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+          deleted_at: {
+            type: Sequelize.DATE,
+            allowNull: true,
+          },
+        }).then (() => {
+          queryInterface.addIndex (tableName, ['group', 'setting'], {
+            name: tableName.concat ('_idx'),
+          })
+        })
   },
 
-  down: async (queryInterface, Sequelize) => {
-    /**
-     * Add reverting commands here.
-     *
-     * Example:
-     * await queryInterface.dropTable('users');
-     */
-  }
-};
+  down: async (queryInterface) => {
+    return await queryInterface.dropTable (tableName)
+  },
+}

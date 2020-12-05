@@ -19,7 +19,7 @@
 const tableName = 'groups'
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    return queryInterface
+    return await queryInterface
         .createTable (tableName, {
           id: {
             type: Sequelize.CHAR (10),
@@ -45,7 +45,7 @@ module.exports = {
             defaultValue: '0',
           },
           owner: {
-            tyep: Sequelize.CHAR (10),
+            type: Sequelize.CHAR (10),
             allowNull: false,
             references: {
               model: 'users',
@@ -70,10 +70,14 @@ module.exports = {
             type: Sequelize.DATE,
             allowNull: true,
           },
+        }).then (() => {
+          queryInterface.addIndex (tableName, ['owner'], {
+            name: tableName.concat ('_idx'),
+          })
         })
   },
 
   down: async (queryInterface) => {
-    return queryInterface.dropTable (tableName)
+    return await queryInterface.dropTable (tableName)
   },
 }
